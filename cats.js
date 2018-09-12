@@ -1,36 +1,30 @@
 document.addEventListener("DOMContentLoaded", function() {
-  // $.ajax({
-  //   url: "https://bb-election-api.herokuapp.com/",
-  //   method: "GET",
-  //   data: {},
-  //   dataType: "json"
-  // }).done(function(responseData){
-  //   var candidates = responseData.candidates;
-  //   for (var i = 0; i < candidates.length; i++) {
-  //     var li = $("<li>");
-  //     li.html(candidates[i].name + ": " + candidates[i].votes + " votes");
-  //
-  //     $(".candidates").append(li);
-  //   }
-  // });
-
   $(".summon-cats").click(function(){
     $.ajax({
       url: "http://bitkittens.herokuapp.com/cats.json",
       method: "GET",
+      data: {number: 6},
       dataType: "json"
     }).done(function(responseData) {
-      var data = responseData.cats;
-      var catContainer = document.querySelectorAll(".cat-box");
+      var cats = responseData.cats;
+      var main = document.querySelector("main");
 
-      for (var i = 0; i < data.length; i++) {
+      for (var i = 0; i < cats.length; i++) {
         var imageContainer = document.createElement("div");
         var image = document.createElement("img");
-        image.src = data[i].photo;
-        image.alt = "Photo of " + data[i].name;
-        imageContainer.append(image);
+        image.src = cats[i].photo;
+        image.alt = "Photo of " + cats[i].name;
+        imageContainer.appendChild(image);
 
-        catContainer[i].innerHTML = imageContainer.innerHTML;
+        var moreCats = document.createElement("div");
+        moreCats.id = "cat" + (i+1);
+        moreCats.className = "cat-box";
+
+        moreCats.style.top = Math.floor(Math.random() * 600) + "px";
+        moreCats.style.left = Math.floor(Math.random() * 800) + "px";
+
+        main.appendChild(moreCats);
+        moreCats.innerHTML = imageContainer.innerHTML;
       }
     });
   });
